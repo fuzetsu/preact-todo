@@ -51,7 +51,10 @@ export default function Todo({ todo, local, update, onclick, focused = false, dr
     draft &&
       iconSend({
         style: `position relative;l -35;t -3;fade ${text ? 1 : 0}`,
-        onclick: () => addTodo()
+        onclick: () => {
+          addTodo()
+          input.current.focus()
+        }
       }),
     !draft && iconX({ onclick: removeTodo })
   )
