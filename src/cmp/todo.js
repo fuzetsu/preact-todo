@@ -15,7 +15,7 @@ export default function Todo({ todo, local, update, onclick, focused = false, dr
   const removeTodo = () => update({ todos: x => x.filter(k => k !== todo) })
 
   const input = useRef()
-  useEffect(() => input.current && focused && input.current.focus(), [focused])
+  useEffect(() => input.current && focused && input.current.select(), [focused])
 
   return m(
     '',
@@ -29,19 +29,21 @@ export default function Todo({ todo, local, update, onclick, focused = false, dr
       done,
       m(
         'input' +
-          z`flex 1;border none; fs 20; p 10; border 1px solid; outline none; m 2` +
+          z`border none; fs 20; p 10; border 1px solid; outline none; m 2` +
           z(!draft && !focused && 'c #444;border none;m 3'),
         {
           ref: input,
           value: text,
           placeholder: 'buy tofu',
           oninput: ({ target: { value } }) => (draft || focused) && local({ text: value }),
-          onkeydown: ({ key, ctrlKey, target }) => {
-            if (key === 'Enter') {
+          onkeydown: e => {
+            if (e.key === 'Enter') {
               if (draft) addTodo()
               else {
-                if (ctrlKey) local({ done: !done })
-                else target.blur()
+                if (e.ctrlKey) {
+                  e.stopPropagation()
+                  local({ done: !done })
+                } else e.target.blur()
               }
             }
           }
