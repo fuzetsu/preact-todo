@@ -1,5 +1,7 @@
 # Preact Todo
 
+[Live version.](https://fuzetsu.github.io/preact-todo)
+
 Simple todo app written for fun using the following libraries:
 
 - view library, [preact / preact-hooks](https://github.com/preactjs/preact)
