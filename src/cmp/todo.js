@@ -3,7 +3,7 @@ import { iconCheck, lineThrough, iconSend, iconX } from '../lib/view-util.js'
 
 export const newTodo = text => ({ id: Math.random().toString(36), text, done: false })
 
-export default function Todo({ todo, local, update, onclick, focused = false, draft = false }) {
+export default function Todo({ todo, local, update, onfocus, focused = false, draft = false }) {
   const { text, done } = todo
 
   const addTodo = () => {
@@ -19,7 +19,6 @@ export default function Todo({ todo, local, update, onclick, focused = false, dr
 
   return m(
     '',
-    { onclick },
     iconCheck({
       className: draft && z`visibility hidden`.class,
       checked: done,
@@ -34,6 +33,7 @@ export default function Todo({ todo, local, update, onclick, focused = false, dr
         {
           ref: input,
           value: text,
+          onfocus,
           placeholder: 'buy tofu',
           oninput: ({ target: { value } }) => (draft || focused) && local({ text: value }),
           onkeydown: e => {

@@ -48,7 +48,7 @@ export default function TodoList({ state, update }) {
         update,
         focused: focusIndex === idx,
         local: up => update({ todos: { [idx]: up } }),
-        onclick: () => setFocusIndex(idx)
+        onfocus: () => setFocusIndex(idx)
       })
     ),
     m('' + z`mt 8;ml 30`, todos.filter(x => x.done).length, ' done, ', todos.length, ' total')
