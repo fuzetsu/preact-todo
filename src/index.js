@@ -13,10 +13,13 @@ z.global`
   fs 16
 `
 
-const savedTodos = safeParse(localStorage.todoV1, [])
+const init = {
+  todos: safeParse(localStorage.todoV1, []),
+  draft: newTodo('')
+}
 
 const App = () => {
-  const [state, update] = useReducer(mergerino, { todos: savedTodos, draft: newTodo('') })
+  const [state, update] = useReducer(mergerino, init)
   useEffect(() => (localStorage.todoV1 = JSON.stringify(state.todos)), [state.todos])
 
   return m(
