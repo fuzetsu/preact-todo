@@ -1,5 +1,5 @@
 import TodoList from './cmp/todo-list.js'
-import { m, useReducer, useDomEvent, usePersist } from './lib/hooks.js'
+import { m, useReducer, useDomEvent, usePersist, useEffect } from './lib/hooks.js'
 import { safeParse } from './lib/util.js'
 import { newTodo } from './cmp/todo.js'
 
@@ -49,14 +49,13 @@ const App = () => {
 
   usePersist('todoV2', state)
 
+  const { night } = state
+  useEffect(() => setTheme(night), [night])
   useDomEvent({
     type: 'keydown',
     filterInput: true,
     handler: ({ key }) => {
-      if (key.toLowerCase() === 'n') {
-        setTheme(!state.night)
-        update({ night: !state.night })
-      }
+      if (key.toLowerCase() === 'n') update({ night: !night })
     }
   })
 
