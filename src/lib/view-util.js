@@ -7,7 +7,7 @@ const icon = ({ style, ...attrs }, styl, body) =>
       size 24
       cursor pointer
       va middle
-      stroke black
+      stroke $fg-color
       sw 2
       stroke-linecap round
       stroke-linejoin round
@@ -37,8 +37,7 @@ export const iconX = (attrs = {}) =>
 
 export const iconCheck = ({ checked, ...attrs } = {}) =>
   icon(attrs, '', [
-    m('rect' + z`transition fill 500ms; size 12`, {
-      fill: checked ? 'black' : 'white',
+    m('rect' + z`transition fill 500ms; size 12` + z`fill ${checked ? '$fg-color' : '$bg-color'}`, {
       x: 4,
       y: 4
     })
@@ -46,7 +45,7 @@ export const iconCheck = ({ checked, ...attrs } = {}) =>
 
 export const iconSend = (attrs = {}) =>
   icon(attrs, '', [
-    m('polygon' + z`transition 500ms;fill black;size 12;:hover { fill green; stroke green }`, {
+    m('polygon' + z`transition 500ms;fill $fg-color;size 12;:hover { fill green; stroke green }`, {
       points: '0,0 0,24 24,12'
     })
   ])
@@ -63,7 +62,7 @@ export const lineThrough = (toggled, body) =>
         w ${toggled ? '92%' : 0}
         t 50%
         l 4%
-        bc black
+        bc $fg-color
         transition width 500ms ease
         content ' '
       }

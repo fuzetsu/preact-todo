@@ -1,7 +1,13 @@
 import { useRef, useEffect, m } from '../lib/hooks.js'
 import { iconCheck, lineThrough, iconSend, iconX } from '../lib/view-util.js'
 
-export const newTodo = text => ({ id: Math.random().toString(36), text, done: false })
+export const newTodo = text => ({
+  id: Math.random()
+    .toString(36)
+    .slice(2),
+  text,
+  done: false
+})
 
 export default function Todo({ todo, local, update, onfocus, focused = false, draft = false }) {
   const { text, done } = todo
@@ -28,8 +34,14 @@ export default function Todo({ todo, local, update, onfocus, focused = false, dr
       done,
       m(
         'input' +
-          z`border none; fs 20; p 10; border 1px solid; outline none; m 2` +
-          z(!draft && !focused && 'c #444;border none;m 3'),
+          z`
+            fs 20; p 10; m 2
+            border 1px solid
+            bc $bg-color
+            c $fg-color
+            outline none
+          ` +
+          z(!draft && !focused && 'c $fg-color2;border none;m 3'),
         {
           ref: input,
           value: text,
