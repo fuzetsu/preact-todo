@@ -10,3 +10,5 @@ Simple todo app written for fun using the following libraries:
 - hyperscript util, [microh](https://github.com/fuzetsu/microh)
 
 Written for modern browsers using ES modules.
+
+_App data is persisted using LocalStorage._
