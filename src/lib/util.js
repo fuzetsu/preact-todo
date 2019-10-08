@@ -16,3 +16,6 @@ export const handleOnce = (elem, type) =>
   new Promise(done => elem.addEventListener(type, done, { once: true }))
 
 export const animEnd = (elem, type = 'transition') => handleOnce(elem, type + 'end')
+
+export const makeTheme = (parts, ...args) => key =>
+  args.concat('').reduce((acc, x, i) => acc + parts[i] + (typeof x === 'object' ? x[key] : x), '')

@@ -1,6 +1,6 @@
 import TodoList from './cmp/todo-list.js'
 import { m, useReducer, useDomEvent, usePersist, useEffect } from './lib/hooks.js'
-import { safeParse } from './lib/util.js'
+import { safeParse, makeTheme } from './lib/util.js'
 import { newTodo } from './cmp/todo.js'
 
 z.helper({
@@ -15,18 +15,13 @@ z.global`
   c $fg-color
 `
 
-const setTheme = night =>
-  night
-    ? z.global`
-        $fg-color white
-        $fg-color2 #eee
-        $bg-color #111
-      `
-    : z.global`
-        $fg-color black
-        $fg-color2 #444
-        $bg-color #eee
-      `
+const theme = makeTheme`
+  $fg-color ${{ day: 'black', night: 'white' }}
+  $fg-color2 ${{ day: '#444', night: '#eee' }}
+  $bg-color ${{ day: '#fefefe', night: '#111' }}
+`
+
+const setTheme = night => z.global(theme(night ? 'night' : 'day'))
 
 // migrate v1 storage
 if (localStorage.todoV1) {
@@ -67,7 +62,7 @@ const App = () => {
         onclick: () => update({ night: !night })
       },
       'Todo ',
-      night ? '🌑' : '★'
+      night ? '🌕' : '⭐'
     ),
     m(TodoList, { state, update })
   )

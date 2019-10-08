@@ -31,7 +31,7 @@ export default function TodoList({ state, update }) {
   }
 
   return m(
-    '',
+    'div',
     { onkeydown: keyHandler },
     m(Todo, {
       draft: true,

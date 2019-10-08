@@ -24,7 +24,7 @@ export default function Todo({ todo, local, update, onfocus, focused = false, dr
   useEffect(() => input.current && focused && input.current.select(), [focused])
 
   return m(
-    '',
+    'div',
     iconCheck({
       className: draft && z`visibility hidden`.class,
       checked: done,
