@@ -1,8 +1,16 @@
-import { useState, m } from '../lib/hooks.js'
+import { useState, m, useRef, useEffect } from '../lib/hooks.js'
 import Todo, { newTodo } from './todo.js'
+import { last } from '../lib/util.js'
 
 export default function TodoList({ state, update }) {
   const { draft, todos = [] } = state
+
+  const undoStack = useRef([])
+  useEffect(() => {
+    if (undoStack.current.length > 0 && todos.length === last(undoStack.current).length)
+      undoStack.current[undoStack.current.length - 1] = todos
+    else undoStack.current.push(todos)
+  }, [todos])
 
   const [focusIndex, setFocusIndex] = useState(-1)
   const keyHandler = e => {
@@ -17,7 +25,7 @@ export default function TodoList({ state, update }) {
       setFocusIndex(focusIndex + 1)
     } else if (e.key === 'ArrowDown' || (!e.shiftKey && e.key === 'Tab')) {
       e.preventDefault()
-      setFocusIndex(Math.min(focusIndex + 1, todos.length - 1))
+      setFocusIndex(Math.min(todos.length - 1, focusIndex + 1))
     } else if (e.key === 'ArrowUp' || (e.shiftKey && e.key === 'Tab')) {
       e.preventDefault()
       setFocusIndex(Math.max(-1, focusIndex - 1))
@@ -27,6 +35,9 @@ export default function TodoList({ state, update }) {
       if (focusIndex > 0) setFocusIndex(focusIndex - 1)
       else if (newLength < 1) setFocusIndex(-1)
       else if (focusIndex > newLength - 1) setFocusIndex(newLength - 1)
+    } else if (e.ctrlKey && e.key === 'z' && undoStack.current.length > 0) {
+      e.preventDefault()
+      update({ todos: undoStack.current.pop() })
     }
   }
 
@@ -39,7 +50,7 @@ export default function TodoList({ state, update }) {
       update,
       focused: focusIndex === -1,
       local: up => update({ draft: up }),
-      onclick: () => setFocusIndex(-1)
+      onfocus: () => setFocusIndex(-1)
     }),
     todos.map((todo, idx) =>
       m(Todo, {

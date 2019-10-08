@@ -5,3 +5,14 @@ export const safeParse = (json, fallback = {}) => {
     return fallback
   }
 }
+
+export const clamp = (min, val, max) => Math.min(max, Math.max(min, val))
+
+export const p = (...args) => (console.log(...args), args[0])
+
+export const last = arr => arr[arr.length - 1]
+
+export const handleOnce = (elem, type) =>
+  new Promise(done => elem.addEventListener(type, done, { once: true }))
+
+export const animEnd = (elem, type = 'transition') => handleOnce(elem, type + 'end')
