@@ -61,7 +61,14 @@ const App = () => {
 
   return m(
     'main' + z`m auto; w 400`,
-    m('h1' + z`m 10;ml 25`, 'Todo'),
+    m(
+      'h1' + z`m 10;ml 25;cursor pointer`,
+      {
+        onclick: () => update({ night: !night })
+      },
+      'Todo ',
+      night ? '🌑' : '★'
+    ),
     m(TodoList, { state, update })
   )
 }
