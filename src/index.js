@@ -62,7 +62,7 @@ const App = () => {
   return m(
     'main' + z`m auto; w 400`,
     m(
-      'h1' + z`m 10;ml 25;cursor pointer`,
+      'h1' + z`m 10;ml 25;cursor pointer;us none`,
       {
         onclick: () => update({ night: !night })
       },
