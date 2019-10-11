@@ -58,7 +58,12 @@ export default function TodoList({ state, update }) {
       filters.map(x =>
         m(
           'span' + z`cursor pointer;m 5` + z(Filter[x] === filter && 'td underline'),
-          { onclick: () => update({ filter: Filter[x] }) },
+          {
+            onclick: () => {
+              setFocusIndex(-1)
+              update({ filter: Filter[x] })
+            }
+          },
           x
         )
       )
