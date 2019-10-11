@@ -12,7 +12,9 @@ const applyFilter = (filter, todos) =>
     : todos.filter(x => (filter === Filter.Completed ? x.done : !x.done))
 
 export default function TodoList({ state, update }) {
-  const { draft, filter = Filter.All, todos = [] } = state
+  const { draft, filter = Filter.All } = state
+
+  const todos = applyFilter(filter, state.todos)
 
   const [focusIndex, setFocusIndex] = useState(-1)
   const keyHandler = e => {
@@ -52,16 +54,16 @@ export default function TodoList({ state, update }) {
       onfocus: () => setFocusIndex(-1)
     }),
     m(
-      'div' + z`ml 30;mt 10;span { m 5 }`,
+      'div' + z`ml 30;mt 10`,
       filters.map(x =>
         m(
-          'span' + z`cursor pointer` + z(Filter[x] === filter && 'td underline'),
+          'span' + z`cursor pointer;m 5` + z(Filter[x] === filter && 'td underline'),
           { onclick: () => update({ filter: Filter[x] }) },
           x
         )
       )
     ),
-    applyFilter(filter, todos).map((todo, idx) =>
+    todos.map((todo, idx) =>
       m(Todo, {
         key: todo.id,
         todo,
