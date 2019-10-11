@@ -1,8 +1,18 @@
+import { processEnum } from '../lib/util.js'
 import { useState, m } from '../lib/hooks.js'
+
 import Todo, { newTodo } from './todo.js'
 
+const filters = ['All', 'Active', 'Completed']
+const Filter = processEnum('Filter', filters)
+
+const applyFilter = (filter, todos) =>
+  filter === Filter.All
+    ? todos
+    : todos.filter(x => (filter === Filter.Completed ? x.done : !x.done))
+
 export default function TodoList({ state, update }) {
-  const { draft, todos = [] } = state
+  const { draft, filter = Filter.All, todos = [] } = state
 
   const [focusIndex, setFocusIndex] = useState(-1)
   const keyHandler = e => {
@@ -41,7 +51,17 @@ export default function TodoList({ state, update }) {
       local: up => update({ draft: up }),
       onfocus: () => setFocusIndex(-1)
     }),
-    todos.map((todo, idx) =>
+    m(
+      'div' + z`ml 30;mt 10;span { m 5 }`,
+      filters.map(x =>
+        m(
+          'span' + z`cursor pointer` + z(Filter[x] === filter && 'td underline'),
+          { onclick: () => update({ filter: Filter[x] }) },
+          x
+        )
+      )
+    ),
+    applyFilter(filter, todos).map((todo, idx) =>
       m(Todo, {
         key: todo.id,
         todo,

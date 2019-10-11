@@ -19,3 +19,6 @@ export const animEnd = (elem, type = 'transition') => handleOnce(elem, type + 'e
 
 export const makeTheme = (parts, ...args) => key =>
   args.concat('').reduce((acc, x, i) => acc + parts[i] + (typeof x === 'object' ? x[key] : x), '')
+
+export const processEnum = (name, members) =>
+  Object.fromEntries(members.map(x => [x, name + '.' + x]))
