@@ -14,7 +14,7 @@ const applyFilter = (filter, todos) =>
 export default function TodoList({ state, update }) {
   const { draft, filter = Filter.All } = state
 
-  const todos = applyFilter(filter, state.todos)
+  const todos = applyFilter(filter, state.todos || [])
 
   const [focusIndex, setFocusIndex] = useState(-1)
   const keyHandler = e => {
