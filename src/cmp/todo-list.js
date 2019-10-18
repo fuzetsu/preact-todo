@@ -34,6 +34,7 @@ export default function TodoList({ state, update }) {
       e.preventDefault()
       setFocusIndex(Math.max(-1, focusIndex - 1))
     } else if (e.key === 'Backspace' && focusIndex > -1 && document.activeElement.value === '') {
+      e.preventDefault()
       update({ todos: { [focusIndex]: undefined } })
       const newLength = todos.length - 1
       if (focusIndex > 0) setFocusIndex(focusIndex - 1)
