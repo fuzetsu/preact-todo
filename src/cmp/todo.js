@@ -21,7 +21,13 @@ export default function Todo({ todo, local, update, onfocus, focused = false, dr
   const removeTodo = () => update({ todos: todos => todos.filter(x => x !== todo) })
 
   const input = useRef()
-  useEffect(() => input.current && focused && input.current.select(), [focused])
+  useEffect(() => {
+    const txt = input.current
+    if (txt && focused) {
+      txt.focus()
+      txt.selectionStart = txt.selectionEnd = txt.value.length
+    }
+  }, [focused])
 
   return m(
     'div',
