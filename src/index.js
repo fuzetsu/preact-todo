@@ -23,12 +23,6 @@ const theme = makeTheme`
 
 const setTheme = night => z.global(theme(night ? 'night' : 'day'))
 
-// migrate v1 storage
-if (localStorage.todoV1) {
-  localStorage.todoV2 = JSON.stringify({ todos: safeParse(localStorage.todoV1, []) })
-  delete localStorage.todoV1
-}
-
 const init = {
   night: false,
   todos: [],
