@@ -9,7 +9,15 @@ export const newTodo = text => ({
   done: false
 })
 
-export default function Todo({ todo, local, update, onfocus, focused = false, draft = false }) {
+export default function Todo({
+  todo,
+  local,
+  update,
+  onfocus,
+  onblur,
+  focused = false,
+  draft = false
+}) {
   const { text, done } = todo
 
   const addTodo = () => {
@@ -52,6 +60,7 @@ export default function Todo({ todo, local, update, onfocus, focused = false, dr
           ref: input,
           value: text,
           onfocus,
+          onblur,
           placeholder: 'buy tofu',
           oninput: ({ target: { value } }) => (draft || focused) && local({ text: value }),
           onkeydown: e => {

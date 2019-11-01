@@ -52,7 +52,8 @@ export default function TodoList({ state, update }) {
       update,
       focused: focusIndex === -1,
       local: up => update({ draft: up }),
-      onfocus: () => setFocusIndex(-1)
+      onfocus: () => setFocusIndex(-1),
+      onblur: () => setFocusIndex(null)
     }),
     m(
       'div' + z`ml 30;mt 10`,
@@ -76,7 +77,8 @@ export default function TodoList({ state, update }) {
         update,
         focused: focusIndex === idx,
         local: up => update({ todos: { [idx]: up } }),
-        onfocus: () => setFocusIndex(idx)
+        onfocus: () => setFocusIndex(idx),
+        onblur: () => setFocusIndex(null)
       })
     ),
     m('' + z`mt 8;ml 30`, todos.filter(x => x.done).length, ' done, ', todos.length, ' total')
