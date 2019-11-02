@@ -22,3 +22,8 @@ export const makeTheme = (parts, ...args) => key =>
 
 export const processEnum = (name, members) =>
   Object.fromEntries(members.map(x => [x, name + '.' + x]))
+
+export const sleep = ms => new Promise((done, id) => (id = setTimeout(done, ms, id)))
+
+export const pipe = (...fns) => (...args) =>
+  fns.slice(1).reduce((acc, fn) => fn(acc), fns[0](...args))

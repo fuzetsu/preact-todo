@@ -1,6 +1,6 @@
 import TodoList from './cmp/todo-list.js'
 import { m, useReducer, useDomEvent, usePersist, useEffect } from './lib/hooks.js'
-import { safeParse, makeTheme } from './lib/util.js'
+import { safeParse, makeTheme, pipe, p } from './lib/util.js'
 import { newTodo } from './cmp/todo.js'
 
 z.helper({
@@ -33,8 +33,13 @@ const init = {
 // initialize theme
 setTheme(init.night)
 
+const logMerge = pipe(
+  mergerino,
+  p
+)
+
 const App = () => {
-  const [state, update] = useReducer(mergerino, init)
+  const [state, update] = useReducer(logMerge, init)
 
   usePersist('todoV2', state)
 
