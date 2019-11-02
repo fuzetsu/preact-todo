@@ -1,5 +1,7 @@
 const m = microh(preact.h)
 
+export const animationTime = 500
+
 const icon = ({ style, ...attrs }, styl, body) =>
   m(
     'svg' +
@@ -20,7 +22,7 @@ const icon = ({ style, ...attrs }, styl, body) =>
   )
 
 export const iconX = (attrs = {}) =>
-  icon(attrs, 'transition stroke 500ms; :hover { stroke red }', [
+  icon(attrs, `transition stroke ${animationTime}ms; :hover { stroke red }`, [
     m('line', {
       x1: 18,
       y1: 6,
@@ -37,17 +39,31 @@ export const iconX = (attrs = {}) =>
 
 export const iconCheck = ({ checked, ...attrs } = {}) =>
   icon(attrs, '', [
-    m('rect' + z`transition fill 500ms; size 12` + z`fill ${checked ? '$fg-color' : '$bg-color'}`, {
-      x: 4,
-      y: 4
-    })
+    m(
+      'rect' +
+        z`transition fill ${animationTime}ms; size 12` +
+        z`fill ${checked ? '$fg-color' : '$bg-color'}`,
+      {
+        x: 4,
+        y: 4
+      }
+    )
   ])
 
 export const iconSend = (attrs = {}) =>
   icon(attrs, '', [
-    m('polygon' + z`transition 500ms;fill $fg-color;size 12;:hover { fill green; stroke green }`, {
-      points: '0,0 0,24 24,12'
-    })
+    m(
+      'polygon' +
+        z`
+        transition ${animationTime}ms
+        fill $fg-color
+        size 12
+        :hover { fill green; stroke green }
+      `,
+      {
+        points: '0,0 0,24 24,12'
+      }
+    )
   ])
 
 export const lineThrough = (toggled, body) =>
@@ -63,7 +79,7 @@ export const lineThrough = (toggled, body) =>
         t 50%
         l 4%
         bc $fg-color
-        transition width 500ms ease
+        transition width ${animationTime}ms ease
         content ' '
       }
     `,

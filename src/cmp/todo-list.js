@@ -9,7 +9,7 @@ const Filter = processEnum('Filter', filters)
 const applyFilter = (filter, todos) =>
   filter === Filter.All
     ? todos
-    : todos.filter(x => (filter === Filter.Completed ? x.done : !x.done))
+    : todos.filter(x => x.animating || (filter === Filter.Completed ? x.done : !x.done))
 
 export default function TodoList({ state, update }) {
   const { draft, filter = Filter.All } = state

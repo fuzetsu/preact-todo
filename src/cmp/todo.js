@@ -1,5 +1,5 @@
 import { useRef, useEffect, m } from '../lib/hooks.js'
-import { iconCheck, lineThrough, iconSend, iconX } from '../lib/view-util.js'
+import { iconCheck, lineThrough, iconSend, iconX, animationTime } from '../lib/view-util.js'
 
 export const newTodo = text => ({
   id: Math.random()
@@ -19,6 +19,13 @@ export default function Todo({
   draft = false
 }) {
   const { text, done } = todo
+
+  const ref = useRef()
+  const toggleTodo = async () => {
+    clearTimeout(ref.current)
+    local({ done: !done, animating: true })
+    ref.current = setTimeout(local, animationTime, { animating: false })
+  }
 
   const addTodo = () => {
     if (!text) return
@@ -42,7 +49,7 @@ export default function Todo({
     iconCheck({
       className: draft && z`visibility hidden`.class,
       checked: done,
-      onclick: () => local({ done: !done })
+      onclick: toggleTodo
     }),
     lineThrough(
       done,
@@ -69,7 +76,7 @@ export default function Todo({
               else {
                 if (e.ctrlKey) {
                   e.stopPropagation()
-                  local({ done: !done })
+                  toggleTodo()
                 } else e.target.blur()
               }
             }
