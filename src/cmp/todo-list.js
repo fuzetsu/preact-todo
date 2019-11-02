@@ -16,13 +16,16 @@ export default function TodoList({ state, update }) {
 
   const todos = applyFilter(filter, state.todos || [])
 
+  const realIndex = idx => state.todos.indexOf(todos[idx])
+
   const [focusIndex, setFocusIndex] = useState(-1)
   const keyHandler = e => {
-    if (e.key === 'Enter' && focusIndex > -1) {
+    if (e.key === 'Enter') {
+      if (focusIndex < 0 || filter === Filter.Completed) return
       update({
         todos: x => {
           const copy = x.slice()
-          copy.splice(focusIndex + 1, 0, newTodo(''))
+          copy.splice(realIndex(focusIndex) + 1, 0, newTodo(''))
           return copy
         }
       })
@@ -35,7 +38,7 @@ export default function TodoList({ state, update }) {
       setFocusIndex(Math.max(-1, focusIndex - 1))
     } else if (e.key === 'Backspace' && focusIndex > -1 && document.activeElement.value === '') {
       e.preventDefault()
-      update({ todos: { [focusIndex]: undefined } })
+      update({ todos: { [realIndex(focusIndex)]: undefined } })
       const newLength = todos.length - 1
       if (focusIndex > 0) setFocusIndex(focusIndex - 1)
       else if (newLength < 1) setFocusIndex(-1)
@@ -75,6 +78,7 @@ export default function TodoList({ state, update }) {
         todo,
         update,
         focused: focusIndex === idx,
+        local: up => update({ todos: { [realIndex(idx)]: up } }),
         onfocus: () => setFocusIndex(idx)
       })
     ),
