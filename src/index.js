@@ -1,6 +1,7 @@
-import TodoList from './cmp/todo-list.js'
 import { m, useReducer, useDomEvent, usePersist, useEffect } from './lib/hooks.js'
 import { safeParse, makeTheme, pipe, p } from './lib/util.js'
+
+import TodoList from './cmp/todo-list.js'
 import { newTodo } from './cmp/todo.js'
 
 z.helper({
@@ -23,10 +24,12 @@ const theme = makeTheme`
 
 const setTheme = night => z.global(theme(night ? 'night' : 'day'))
 
+const lsk = 'todoV2'
+
 const init = {
   night: false,
   todos: [],
-  ...safeParse(localStorage.todoV2, {}),
+  ...safeParse(localStorage[lsk], {}),
   draft: newTodo('')
 }
 
@@ -41,7 +44,7 @@ const logMerge = pipe(
 const App = () => {
   const [state, update] = useReducer(logMerge, init)
 
-  usePersist('todoV2', state)
+  usePersist(lsk, state)
 
   const { night } = state
   useEffect(() => setTheme(night), [night])
