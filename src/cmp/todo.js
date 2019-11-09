@@ -73,11 +73,9 @@ export default function Todo({
           onkeydown: e => {
             if (e.key === 'Enter') {
               if (draft) addTodo()
-              else {
-                if (e.ctrlKey) {
-                  e.stopPropagation()
-                  toggleTodo()
-                } else e.target.blur()
+              else if (e.ctrlKey) {
+                e.stopPropagation()
+                toggleTodo()
               }
             }
           }
